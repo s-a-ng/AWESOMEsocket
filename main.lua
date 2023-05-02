@@ -59,6 +59,7 @@ function Connection.connect(url)
     self.ConnectionId = HttpService:GenerateGUID(false)
     self.Url = url
     self.Alive = true
+    
     if Initialize(self.ConnectionId, url) ~= "OK" then 
         return 
     end 
