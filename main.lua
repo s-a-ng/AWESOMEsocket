@@ -1,3 +1,7 @@
+if not GlobalConnections then
+    getgenv().GlobalConnections = {}
+end
+
 local HttpService = game:GetService("HttpService")
 local Connection = {}
 Connection.__index = Connection
@@ -58,7 +62,8 @@ function Connection.connect(url)
     if Initialize(self.ConnectionId, url) ~= "OK" then 
         return 
     end 
-
+    
+    table.insert(GlobalConnections, self)
     ID_TO_CONNECTION[self.ConnectionId] = self
 
     self.Events = {
@@ -88,8 +93,8 @@ function Connection:Close()
 end
 
 game.Close:Connect(function()
-    for _, v in ipairs(ID_TO_CONNECTION) do
-        v:Close()
+    for _, SomeConnection in ipairs(GlobalConnections) do
+        SomeConnection:Close()
     end
 end)
 
