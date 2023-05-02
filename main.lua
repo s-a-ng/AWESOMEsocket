@@ -2,6 +2,8 @@ if not GlobalConnections then
     getgenv().GlobalConnections = {}
 end
 
+local SERVER = "https://plaintivegroundedrar.ngrokadaxdlolol.repl.co"
+
 local HttpService = game:GetService("HttpService")
 local Connection = {}
 Connection.__index = Connection
@@ -33,7 +35,7 @@ function UpdateEventQueue(ConnectionId)
     
     while Connection.Alive do
         local Status, Recieved = pcall(function()
-            return game:HttpPost("http://localhost:8080/queue", HttpService:JSONEncode({ConnectionId = ConnectionId}))
+            return game:HttpPost(SERVER .. "/queue", HttpService:JSONEncode({ConnectionId = ConnectionId}))
         end)
         
         if STATUS_CODES[Recieved] or not Status then 
@@ -47,7 +49,7 @@ function UpdateEventQueue(ConnectionId)
 end
 
 function Initialize(ConnectionId, URL)
-    return game:HttpPost("http://localhost:8080/initalize", HttpService:JSONEncode({
+    return game:HttpPost(SERVER .. "/initalize", HttpService:JSONEncode({
         ConnectionId = ConnectionId,
         URL = URL,
     }))
@@ -82,14 +84,14 @@ function Connection.connect(url)
 end
 
 function Connection:Send(data)
-    game:HttpPost("http://localhost:8080/send", HttpService:JSONEncode({
+    game:HttpPost(SERVER .. "/send", HttpService:JSONEncode({
         ConnectionId = self.ConnectionId,
         Data = data
     }))
 end
 
 function Connection:Close()
-    game:HttpPost("http://localhost:8080/close", HttpService:JSONEncode({
+    game:HttpPost(SERVER .. "/close", HttpService:JSONEncode({
         ConnectionId = self.ConnectionId,
     }))
 end
