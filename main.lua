@@ -42,6 +42,7 @@ function UpdateEventQueue(ConnectionId)
         warn(Recieved)
         Recieved = HttpService:JSONDecode(Recieved)
         HandleEvents(Recieved)
+        task.wait(3)
     end
 end
 
